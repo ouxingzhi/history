@@ -1,0 +1,56 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>history project</title>
+	<script type="text/javascript" src="./src/pagetree.js"></script>
+	<script type="text/javascript" src="./src/historystack.js"></script>
+	<script type="text/javascript" src="./src/history.js"></script>
+</head>
+<body>
+	<input class="forward" data-hash="index" value="进入搜索页" type="button"/><br />
+
+	<input class="forward" data-hash="searchlist" value="进入列表" type="button" /><br />
+
+	<input class="forward" value="进入详情页" data-hash="detail" type="button" />&nbsp;&nbsp;&nbsp;<input class="forward" data-hash="imagelist" value="进入详情页图片列表页"  type="button"/>&nbsp;&nbsp;&nbsp;<input class="forward"  data-hash="imagedetail" value="进入详情页图片大图页" type="button" /><br />
+	<input class="forward"  data-hash="booking" value="进入订单页"  type="button"/><br />
+
+	<input class="back" value="回退"  type="button"/>
+
+	<div id="out"></div>
+
+	<script>
+		$ = function(selector){ return document.querySelectorAll(selector); }
+		var out = $('#out')[0];
+		function log(l){
+			out.innerHTML += l + "<br />";
+		}
+
+		var forwards = $('.forward'),
+			back = $('.back')[0];
+
+		var curIndex = '';
+
+		var history = new History(tree,new HistoryStack());
+
+
+		for(var i=0,len=forwards.length;i<len;i++){
+			forwards[i].onclick = function(){
+				var url = this.getAttribute('data-hash');
+				history.forward(url,url);
+				curIndex = url;
+				url && log(url);
+			};
+		}
+
+		back.onclick = function(){
+			var url = history.back(curIndex);
+			curIndex = url;
+			url && log("回退"+url);
+		};
+
+
+
+
+	</script>
+</body>
+</html>
